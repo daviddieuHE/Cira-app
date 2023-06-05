@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "cira",
+    "slug": "cira",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow cira to use your camera"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
+    "ios": {
+      "bundleIdentifier": "be.daviddieu.cira",
+      "buildNumber": "1"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "94e2cbb1-f99d-418a-8e16-92945362d55c"
+      }
+    },
+    "android": {
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ],
+      "package": "be.daviddieu.cira",
+      "versionCode": 1
+    },
+    "updates": {
+      "url": "https://u.expo.dev/94e2cbb1-f99d-418a-8e16-92945362d55c"
+    },
+    "runtimeVersion": "exposdk:48.0.0",
+    "version": "1.0.0"
+  }
+}
