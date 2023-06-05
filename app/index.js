@@ -6,6 +6,8 @@ import { ListItem } from "../components/list/ListItem";
 import { Link } from "expo-router";
 import { SignalementIcon } from "../components/icons/SignalementIcon";
 import { useQuery } from "@tanstack/react-query"
+import { getReports } from "../requests/api";
+
 
 // A MODIFIER
 const annonces = [
@@ -38,14 +40,14 @@ const categories = {
   voirie: "Voirie",
   bien_public: "Bien public",
   autre: "Autre",
-} 
+}
 
 
 export default function Page() {
 
-// Utilisation de React Query pour récupérer les données des signalements depuis une API
-  const reportsQuery = useQuery(['reports'], () => fetch("https://cira-production.up.railway.app/api/reports").then(res => res.json()))
-
+  // Utilisation de React Query pour récupérer les données des signalements depuis une API
+  const reportsQuery = useQuery(['reports'], getReports)
+  
   return (
     <View style={styles.container}>
       <SafeAreaView />
@@ -54,7 +56,8 @@ export default function Page() {
           <ListItem key={index} title={annonce} />
         ))}
       </List>
-      <List title="Mes signalements" loading={reportsQuery.isFetching} onRefresh={() => reportsQuery.refetch()}>        {reportsQuery.data && reportsQuery.data.map(({ created_at, status, category }, index) => {
+      <List title="Mes signalements" loading={reportsQuery.isFetching} onRefresh={() => reportsQuery.refetch()}>
+        {reportsQuery.data && reportsQuery.data.map(({ created_at, status, category }, index) => {
           const { color, text } = statusOptions[status];
           return (
             <ListItem

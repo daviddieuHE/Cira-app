@@ -19,6 +19,8 @@ import Send from "../../components/icons/Send";
 import { useRouter } from "expo-router";
 import Back from "../../components/icons/Back";
 import { useMutation } from "@tanstack/react-query";
+import { postReport } from "../../requests/api";
+
 
 const PicturePane = ({ picture, date, location }) => {
   const dateFormat = Intl.DateTimeFormat("fr-FR", {
@@ -175,13 +177,7 @@ export const SignalementForm = ({ picture }) => {
       formData.append("latitude", location.coords.latitude);
       formData.append("date", date.toISOString());
 
-      return fetch("https://cira-server-production.up.railway.app/api/report", {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        body: formData,
-      });
+      return postReport(formData);
     },
     {
       onSuccess: () => {

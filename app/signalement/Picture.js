@@ -37,6 +37,8 @@ export const Picture = ({ setPicture }) => {
           width: "100%",
         }}
         ref={cameraRef}
+        testID="camera"
+
       />
       <View
         style={{
@@ -58,6 +60,7 @@ export const Picture = ({ setPicture }) => {
         >
           <TouchableOpacity
             onPress={async () => {
+              // Prend une photo et demande de l'avoir en base64, avec une qualité de 0.5
               const picture = await cameraRef.current.takePictureAsync({
                 base64: true,
                 quality: 0.5,
