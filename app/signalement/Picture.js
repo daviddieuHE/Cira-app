@@ -58,11 +58,12 @@ export const Picture = ({ setPicture }) => {
         >
           <TouchableOpacity
             onPress={async () => {
+              // Prend une photo et demande de l'avoir en base64, avec une qualité de 0.5
               const picture = await cameraRef.current.takePictureAsync({
                 base64: true,
                 quality: 0.5,
               });
-
+              // Modifie la photo pour réduire sa taille et la compresser
               const manipResult = await manipulateAsync(
                 picture.uri,
                 [
