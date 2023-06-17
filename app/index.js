@@ -1,22 +1,11 @@
-// Import des composants depuis expo et react-native
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { List } from "../components/list/List";
 import { ListItem } from "../components/list/ListItem";
 import { Link } from "expo-router";
 import { SignalementIcon } from "../components/icons/SignalementIcon";
-import { useQuery } from "@tanstack/react-query"
-import { getReports } from "../requests/api";
-
-
-// A MODIFIER
-const annonces = [
-  "Le Pont Mirabaud sera fermé du 12 au 17 juin.",
-  "La fête du village aura lieu le 27 juillet.",
-  "La piscine Maupassant sera en maitenance le 19 juin.",
-  "Joyeuse fête nationale ! ",
-];
-
+import { useQuery } from "@tanstack/react-query";
+import { getAdvertisements, getReports } from "../requests/api";
 
 // Objet pour gérer l'affichage des statuts des signalements
 const statusOptions = {
@@ -34,47 +23,59 @@ const statusOptions = {
   },
 };
 
-
 const categories = {
   depot_sauvage: "Dépot sauvage",
   voirie: "Voirie",
   bien_public: "Bien public",
   autre: "Autre",
-}
-
+};
 
 export default function Page() {
-
   // Utilisation de React Query pour récupérer les données des signalements depuis une API
-  const reportsQuery = useQuery(['reports'], getReports)
-  
+  const reportsQuery = useQuery(["reports"], getReports);
+  const advertisementsQuery = useQuery(["advertisements"], getAdvertisements);
+
   return (
     <View style={styles.container}>
       <SafeAreaView />
-      <List title="Annonces">
-        {annonces.map((annonce, index) => (
-          <ListItem key={index} title={annonce} />
-        ))}
+      <List
+        title="Annonces"
+        loading={advertisementsQuery.isFetching}
+        onRefresh={() => advertisementsQuery.refetch()}
+      >
+        {advertisementsQuery.data &&
+          advertisementsQuery.data.map(({ title }, index) => (
+            <ListItem key={index} title={title} />
+          ))}
       </List>
-      <List title="Mes signalements" loading={reportsQuery.isFetching} onRefresh={() => reportsQuery.refetch()}>
-        {reportsQuery.data && reportsQuery.data.map(({ created_at, status, category }, index) => {
-          const { color, text } = statusOptions[status];
-          return (
-            <ListItem
-              key={index}
-              title={`${new Date(created_at).toLocaleDateString()} - ${categories[category]}`}
-              subTitle={text}
-              subTitleColor={color}
-            />
-          );
-        })}
+      <List
+        title="Mes signalements"
+        loading={reportsQuery.isFetching}
+        onRefresh={() => reportsQuery.refetch()}
+      >
+        {reportsQuery.data &&
+          reportsQuery.data.map(({ created_at, status, category }, index) => {
+            const { color, text } = statusOptions[status];
+            return (
+              <ListItem
+                key={index}
+                title={`${new Date(created_at).toLocaleDateString()} - ${
+                  categories[category]
+                }`}
+                subTitle={text}
+                subTitleColor={color}
+              />
+            );
+          })}
       </List>
-      <Link href={"/signalement"} style={styles.link}>
-        <View style={styles.linkContainer}>
-          <SignalementIcon />
-          <Text style={styles.linkText}>Nouveau {"\n"} signalement</Text>
-        </View>
-      </Link>
+      <View style={styles.linkContainer}>
+        <Link href={"/signalement"}>
+          <View style={styles.linkContent}>
+            <SignalementIcon />
+            <Text style={styles.linkText}>Nouveau {"\n"} signalement</Text>
+          </View>
+        </Link>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -90,11 +91,6 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingVertical: 40,
     gap: 5,
-  },
-  link: {
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
   },
   linkContainer: {
     backgroundColor: "#A4BD01",
@@ -114,6 +110,13 @@ const styles = StyleSheet.create({
     },
     alignItems: "center",
     justifyContent: "center",
+  },
+  linkContent: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
   },
   linkText: {
     color: "black",

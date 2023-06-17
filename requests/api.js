@@ -11,3 +11,8 @@ export const postReport = (formData) =>
     },
     body: formData,
   });
+
+export const getAdvertisements = () =>
+  fetch(
+    "https://cira-server-production.up.railway.app/api/advertisements"
+  ).then((res) => res.json());

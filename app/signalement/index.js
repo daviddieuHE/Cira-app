@@ -1,6 +1,4 @@
 import { useState } from "react";
-import TakePicture from "../../components/icons/TakePicture";
-import Cancel from "../../components/icons/Cancel";
 import { Picture } from "./Picture";
 import { SignalementForm } from "./Form";
 

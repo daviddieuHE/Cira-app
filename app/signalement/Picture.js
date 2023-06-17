@@ -5,23 +5,22 @@ import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
 export const Picture = ({ setPicture }) => {
-// Demandez l'autorisation d'utiliser la caméra du téléphone
+  // Demandez l'autorisation d'utiliser la caméra du téléphone
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const cameraRef = useRef(); // Référence à l'objet Camera
-  const router = useRouter(); // Instance du routeur
-  
-// Si l'autorisation n'a pas encore été accordée, affichez un message en attente
+  const cameraRef = useRef();
+  const router = useRouter();
+
+  // Si l'autorisation n'a pas encore été accordée, affichez un message en attente
   if (!permission) {
     return <Text>Waiting for permissions...</Text>;
   }
-
   // Si l'autorisation n'est pas accordée, demandez-la
   if (!permission.granted) {
     requestPermission();
   }
-
   // Si l'autorisation est accordée, affichez la vue de la caméra
   return (
     <View
@@ -38,7 +37,6 @@ export const Picture = ({ setPicture }) => {
         }}
         ref={cameraRef}
         testID="camera"
-
       />
       <View
         style={{
@@ -60,12 +58,29 @@ export const Picture = ({ setPicture }) => {
         >
           <TouchableOpacity
             onPress={async () => {
-              // Prend une photo et demande de l'avoir en base64, avec une qualité de 0.5
               const picture = await cameraRef.current.takePictureAsync({
                 base64: true,
                 quality: 0.5,
               });
-              setPicture(picture);
+
+              const manipResult = await manipulateAsync(
+                picture.uri,
+                [
+                  {
+                    resize: {
+                      width: 720,
+                      height: 1080,
+                    },
+                  },
+                ],
+                {
+                  compress: 0,
+                  format: SaveFormat.JPEG,
+                  base64: true,
+                }
+              );
+
+              setPicture(manipResult);
             }}
             style={{
               width: 70,
@@ -107,10 +122,14 @@ export const Picture = ({ setPicture }) => {
               alignItems: "center",
             }}
           >
-            <Text style={{
-              color: "#fff",
-              fontSize: 30,
-            }}>X</Text>
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 30,
+              }}
+            >
+              X
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

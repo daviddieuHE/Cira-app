@@ -19,11 +19,13 @@ export default function Page() {
     <View style={styles.container}>
       <SafeAreaView />
       <ThanksPane />
-      <Link href="/" style={styles.link}>
-        <View style={styles.linkContainer}>
-          <Text style={styles.linkText}>Retour à l'accueil</Text>
-        </View>
-      </Link>
+      <View style={styles.linkContainer}>
+        <Link href="/">
+          <View style={styles.linkContent}>
+            <Text style={styles.linkText}>Retour à l'accueil</Text>
+          </View>
+        </Link>
+      </View>
     </View>
   );
 }
@@ -37,12 +39,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  link: {
-    position: "absolute",
-    bottom: 200,
-    width: "100%",
-  },
   linkContainer: {
+    bottom: 200,
+    position: "absolute",
     alignItems: "center",
     justifyContent: "center",
     display: "flex",
@@ -51,6 +50,13 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingHorizontal: 20,
     width: "100%",
+  },
+  linkContent: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
   },
   linkText: {
     color: "white",
