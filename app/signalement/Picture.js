@@ -75,7 +75,7 @@ export const Picture = ({ setPicture }) => {
                   },
                 ],
                 {
-                  compress: 0,
+                  compress: 0.5,
                   format: SaveFormat.JPEG,
                   base64: true,
                 }
@@ -105,8 +105,8 @@ export const Picture = ({ setPicture }) => {
       >
         <View
           style={{
-            alignSelf: "space-start",
-            alignItems: "space-start",
+            alignSelf: "flex-start",
+            alignItems: "flex-start",
           }}
         >
           <TouchableOpacity
