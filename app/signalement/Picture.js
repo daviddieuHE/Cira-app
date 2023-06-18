@@ -8,20 +8,20 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
 export const Picture = ({ setPicture }) => {
-  // Demandez l'autorisation d'utiliser la caméra du téléphone
+// Demandez l'autorisation d'utiliser la caméra du téléphone
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef();
   const router = useRouter();
 
-  // Si l'autorisation n'a pas encore été accordée, affichez un message en attente
+// Si l'autorisation n'a pas encore été accordée, affichez un message en attente
   if (!permission) {
     return <Text>Waiting for permissions...</Text>;
   }
-  // Si l'autorisation n'est pas accordée, demandez-la
+// Si l'autorisation n'est pas accordée, demandez-la
   if (!permission.granted) {
     requestPermission();
   }
-  // Si l'autorisation est accordée, affichez la vue de la caméra
+// Si l'autorisation est accordée, affichez la vue de la caméra
   return (
     <View
       style={{
@@ -58,12 +58,12 @@ export const Picture = ({ setPicture }) => {
         >
           <TouchableOpacity
             onPress={async () => {
-              // Prend une photo et demande de l'avoir en base64, avec une qualité de 0.5
+// Prend une photo et demande de l'avoir en base64, avec une qualité de 0.5
               const picture = await cameraRef.current.takePictureAsync({
                 base64: true,
                 quality: 0.5,
               });
-              // Modifie la photo pour réduire sa taille et la compresser
+// Modifie la photo pour réduire sa taille et la compresser
               const manipResult = await manipulateAsync(
                 picture.uri,
                 [

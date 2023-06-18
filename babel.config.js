@@ -1,3 +1,6 @@
+//compilateur JavaScript qui permet de transformer le code source en un format
+// qui peut être exécuté par les navigateurs ou des environnements plus anciens.
+
 module.exports = function (api) {
   api.cache(true);
   return {

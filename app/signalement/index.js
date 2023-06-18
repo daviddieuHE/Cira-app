@@ -12,12 +12,12 @@ export default function Page() {
 
 
   if(!picture) {
-  // Si aucune photo n'a été prise, affiche le composant Picture
+// Si aucune photo n'a été prise, affiche le composant Picture
     return <Picture setPicture={setPicture} />
   }
 
   return (
-  // Si une photo a été prise, affiche le formulaire d'enregistrement de signalement
+// Si une photo a été prise, affiche le formulaire d'enregistrement de signalement
      <SignalementForm picture={picture} />
   )
 }

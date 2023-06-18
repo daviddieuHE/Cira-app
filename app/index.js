@@ -31,7 +31,7 @@ const categories = {
 };
 
 export default function Page() {
-  // Utilisation de React Query pour récupérer les données des signalements depuis une API
+// Utilisation de React Query pour récupérer les données des signalements depuis une API
   const reportsQuery = useQuery(["reports"], getReports);
   const advertisementsQuery = useQuery(["advertisements"], getAdvertisements);
 

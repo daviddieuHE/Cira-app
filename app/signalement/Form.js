@@ -21,8 +21,9 @@ import Back from "../../components/icons/Back";
 import { useMutation } from "@tanstack/react-query";
 import { postReport } from "../../requests/api";
 
-
+// Composant pour afficher une image, une date et une localisation
 const PicturePane = ({ picture, date, location }) => {
+// Formater la date en français  
   const dateFormat = Intl.DateTimeFormat("fr-FR", {
     hour: "numeric",
     minute: "numeric",
@@ -31,6 +32,7 @@ const PicturePane = ({ picture, date, location }) => {
     day: "numeric",
   }).format(date);
 
+// Afficher l'image, la localisation et la date
   return (
     <View style={stylesPicturePane.container}>
       <Image source={{ uri: picture.uri }} style={stylesPicturePane.picture} />
@@ -53,6 +55,7 @@ const PicturePane = ({ picture, date, location }) => {
   );
 };
 
+// Composant pour choisir une catégorie
 const CategoryPane = ({ category, setCategory }) => {
   return (
     <View style={stylesCategory.container}>
@@ -72,6 +75,7 @@ const CategoryPane = ({ category, setCategory }) => {
   );
 };
 
+// Composant pour entrer une description
 const DescriptionPane = ({
   setDescriptionFocused,
   description,
@@ -95,6 +99,7 @@ const DescriptionPane = ({
   );
 };
 
+// Bouton d'envoi
 const SubmitButton = ({ onClick, disable, loading }) => {
   return (
     <TouchableOpacity
@@ -116,7 +121,10 @@ const SubmitButton = ({ onClick, disable, loading }) => {
   );
 };
 
+// Bouton de retour
 const BackButton = () => {
+
+// Utilisation du hook useRouter pour naviguer dans l'application
   const router = useRouter();
   return (
     <TouchableOpacity
@@ -128,6 +136,7 @@ const BackButton = () => {
   );
 };
 
+// Bouton pour fermer le clavier
 const CloseButton = () => {
   return (
     <TouchableOpacity
@@ -139,7 +148,10 @@ const CloseButton = () => {
   );
 };
 
+// Composant principal de notre formulaire
 export const SignalementForm = ({ picture }) => {
+
+// Initialisation des différents états de notre composant
   const [isDescriptionFocused, setDescriptionFocused] = useState(false);
   const [category, setCategory] = useState("depot_sauvage");
   const [description, setDescription] = useState("");
@@ -148,6 +160,8 @@ export const SignalementForm = ({ picture }) => {
 
   const router = useRouter();
 
+// Utilisation du hook useEffect pour obtenir la localisation actuelle
+// lorsque le composant est monté
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -161,6 +175,7 @@ export const SignalementForm = ({ picture }) => {
     })();
   }, []);
 
+// Utilisation du hook useMutation pour poster le rapport
   const submitMutation = useMutation(
     ["submit"],
     () => {
@@ -186,6 +201,7 @@ export const SignalementForm = ({ picture }) => {
     }
   );
 
+// Affichage du formulaire
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>

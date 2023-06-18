@@ -1,6 +1,12 @@
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 
+// Ce composant est utilisé pour afficher une liste de composants enfants. 
+// Le chargement des données de cette liste peut être rafraîchi manuellement par l'utilisateur.
 export const List = ({ title, children, loading, onRefresh }) => {
+
+// recharger les données lorsque l'utilisateur effectue une action de "pull-to-refresh" sur la liste.
+// ScrollView permet à la liste d'être défilable si elle dépasse la hauteur de l'écran
+  
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
